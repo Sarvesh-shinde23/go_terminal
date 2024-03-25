@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"os"
 	"os/exec"
+	"runtime"
 	"strings"
 )
 
@@ -18,7 +19,19 @@ func getUserInput() (string, error) {
 	}
 	return strings.TrimSpace(input), nil // Remove trailing newline
 }
+
+func getShell() string {
+	switch runtime.GOOS {
+	case "windows":
+		return "powershell"
+	default:
+		return "bash"
+	}
+}
+
 func main() {
+	shell := getShell()
+
 	for {
 		// Get user input
 		command, err := getUserInput()
@@ -31,7 +44,7 @@ func main() {
 		}
 
 		// Execute the command using os/exec
-		cmd := exec.Command("powershell", "-c", command) // Use a shell for flexibility
+		cmd := exec.Command(shell, "-c", command) // Use a shell for flexibility
 		stdout, err := cmd.StdoutPipe()
 		if err != nil {
 			fmt.Println("Error creating stdout pipe:", err)
