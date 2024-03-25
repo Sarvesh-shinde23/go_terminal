@@ -31,7 +31,7 @@ func main() {
 		}
 
 		// Execute the command using os/exec
-		cmd := exec.Command("sh", "-c", command) // Use a shell for flexibility
+		cmd := exec.Command("powershell", "-c", command) // Use a shell for flexibility
 		stdout, err := cmd.StdoutPipe()
 		if err != nil {
 			fmt.Println("Error creating stdout pipe:", err)
